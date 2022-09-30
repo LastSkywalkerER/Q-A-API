@@ -1,6 +1,6 @@
 ### Task
 
-[here](https://mail.google.com/chat/u/1/#chat/dm/zonV8EAAAAE)
+[here](https://docs.google.com/document/u/1/d/1yetEOV_bjmjDfUFL2YBmbJM-Kb2RyE5L/edit?usp=drive_web&ouid=102665524510371183308&rtpof=true)
 
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>

@@ -20,10 +20,10 @@ module.exports = {
     '@typescript-eslint/no-explicit-any': 'off',
 
     // Sort imports
-    'simple-import-sort/imports': 'warn',
-    'simple-import-sort/exports': 'warn',
+    'simple-import-sort/imports': 'error',
+    'simple-import-sort/exports': 'error',
 
-    'import/export': 'warn',
+    'import/export': 'error',
 
     'import/no-duplicates': ['error'],
 
