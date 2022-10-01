@@ -17,7 +17,7 @@ export class UsersService {
   ) {}
 
   async create(user: CreateUserDto): Promise<Users> {
-    const checkUser = this.usersRepository.findBy({ email: user.email, userName: user.userName });
+    const [checkUser] = await this.usersRepository.findBy({ email: user.email, userName: user.userName });
 
     if (checkUser) {
       throw new HttpException('User already exists', HttpStatus.NOT_ACCEPTABLE);
