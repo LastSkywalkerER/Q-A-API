@@ -28,11 +28,11 @@ export class UsersService {
     return this.usersRepository.save({ ...user, password: hashedPassword });
   }
 
-  findAll(): Promise<Users[]> {
+  getAll(): Promise<Users[]> {
     return this.usersRepository.find();
   }
 
-  findOne(email: string): Promise<Users> {
+  getOne(email: string): Promise<Users> {
     return this.usersRepository.findOneBy({ email });
   }
 

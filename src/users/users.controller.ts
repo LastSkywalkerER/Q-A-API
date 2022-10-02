@@ -31,12 +31,12 @@ export class UsersController {
 
   @Get(':email')
   getProfile(@Param('email') email: string) {
-    return this.usersService.findOne(email);
+    return this.usersService.getOne(email);
   }
 
   @Get()
   @Roles(RolesEnum.Admin)
   async getAll() {
-    return this.usersService.findAll();
+    return this.usersService.getAll();
   }
 }

@@ -2,10 +2,14 @@ import { Module } from '@nestjs/common';
 import { APP_GUARD } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
+import { Answers } from './answers/answers.entity';
+import { AnswersModule } from './answers/answers.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { JwtAuthGuard } from './auth/jwt-auth.guard';
+import { Questions } from './questions/questions.entity';
+import { QuestionsModule } from './questions/questions.module';
 import { RolesGuard } from './roles/roles.guard';
 import { Users } from './users/users.entity';
 import { UsersModule } from './users/users.module';
@@ -19,11 +23,13 @@ import { UsersModule } from './users/users.module';
       username: 'postgres',
       password: 'root',
       database: 'qa-api',
-      entities: [Users],
+      entities: [Users, Questions, Answers],
       synchronize: true,
     }),
     UsersModule,
     AuthModule,
+    QuestionsModule,
+    AnswersModule,
   ],
   controllers: [AppController],
   providers: [

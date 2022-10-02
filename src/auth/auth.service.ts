@@ -14,7 +14,7 @@ export class AuthService {
   constructor(private usersService: UsersService, private jwtService: JwtService) {}
 
   async validateUser(email: string, password: string): Promise<GetUserDto | null> {
-    const user = await this.usersService.findOne(email);
+    const user = await this.usersService.getOne(email);
 
     const isMatch = await bcrypt.compare(password, user.password);
 
