@@ -1,5 +1,6 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
+import { Tags } from '@/tags/tags.entity';
 import { Users } from '@/users/users.entity';
 
 @Entity()
@@ -24,8 +25,9 @@ export class Questions {
   @Column()
   description: string;
 
-  @Column('text', { array: true })
-  tags: string[];
+  @ManyToMany(() => Tags)
+  @JoinTable()
+  tags: Tags[];
 
   @Column()
   dateOfCreation: string;

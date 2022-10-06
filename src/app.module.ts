@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { APP_GUARD } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import * as dotenv from 'dotenv';
 
 import { Answers } from './answers/answers.entity';
 import { AnswersModule } from './answers/answers.module';
@@ -11,25 +12,26 @@ import { JwtAuthGuard } from './auth/jwt-auth.guard';
 import { Questions } from './questions/questions.entity';
 import { QuestionsModule } from './questions/questions.module';
 import { RolesGuard } from './roles/roles.guard';
+import { Tags } from './tags/tags.entity';
+import { TagsModule } from './tags/tags.module';
 import { Users } from './users/users.entity';
 import { UsersModule } from './users/users.module';
+
+dotenv.config();
 
 @Module({
   imports: [
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      username: 'postgres',
-      password: 'root',
-      database: 'qa-api',
-      entities: [Users, Questions, Answers],
+      url: process.env.DATABASE_URL,
+      entities: [Users, Questions, Answers, Tags],
       synchronize: true,
     }),
     UsersModule,
     AuthModule,
     QuestionsModule,
     AnswersModule,
+    TagsModule,
   ],
   controllers: [AppController],
   providers: [

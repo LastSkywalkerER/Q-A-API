@@ -2,7 +2,9 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
 import * as dotenv from 'dotenv';
-import { Repository } from 'typeorm';
+import { DeleteResult, Repository, UpdateResult } from 'typeorm';
+
+import { Roles } from '@/roles/roles.enum';
 
 import { CreateUserDto } from './dto/create-user.dto';
 import { Users } from './users.entity';
@@ -25,7 +27,11 @@ export class UsersService {
 
     const hashedPassword = await bcrypt.hash(user.password, Number(process.env.BCRYPT_ROUNDS));
 
-    return this.usersRepository.save({ ...user, password: hashedPassword });
+    return this.usersRepository.save({ ...user, password: hashedPassword, role: Roles.User });
+  }
+
+  async upgrade(email: string): Promise<UpdateResult> {
+    return this.usersRepository.update({ email }, { role: Roles.Admin });
   }
 
   getAll(): Promise<Users[]> {
@@ -36,7 +42,7 @@ export class UsersService {
     return this.usersRepository.findOneBy({ email });
   }
 
-  async remove(email: string): Promise<void> {
-    await this.usersRepository.delete({ email });
+  async remove(email: string): Promise<DeleteResult> {
+    return this.usersRepository.delete({ email });
   }
 }

@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 
 import { Answers } from './answers.entity';
 import { CreateAnswerDto } from './dto/create-answer.dto';
+import { UpdateAnswerDto } from './dto/update-answer.dto';
 
 @Injectable()
 export class AnswersService {
@@ -22,7 +23,27 @@ export class AnswersService {
     return this.answersRepository.findBy({ questionId });
   }
 
-  async remove(id: string): Promise<void> {
-    await this.answersRepository.delete({ id });
+  async update(question: UpdateAnswerDto): Promise<UpdateResult> {
+    const date = new Date().toISOString();
+
+    return this.answersRepository.update({ id: question.id }, { ...question, dateOfUpdate: date });
+  }
+
+  async remove(id: string): Promise<DeleteResult> {
+    return this.answersRepository.delete({ id });
+  }
+
+  async upvote(id: string): Promise<UpdateResult> {
+    const answer = await this.answersRepository.findOneBy({ id });
+
+    return this.answersRepository.update({ id }, { rating: answer.rating + 1 });
+  }
+
+  async downvote(id: string): Promise<UpdateResult> {
+    const answer = await this.answersRepository.findOneBy({ id });
+
+    if (answer.rating > 0) {
+      return this.answersRepository.update({ id }, { rating: answer.rating - 1 });
+    }
   }
 }

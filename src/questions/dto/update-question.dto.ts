@@ -1,7 +1,8 @@
 import { Tags } from '@/tags/tags.entity';
 
-export class CreateQuestionDto {
+export class UpdateQuestionDto {
   readonly title: string;
   readonly description: string;
-  readonly tags: Tags[];
+  readonly tags?: Tags[];
+  readonly id: string;
 }

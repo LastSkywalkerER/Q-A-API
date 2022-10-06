@@ -22,6 +22,12 @@ export class UsersController {
     return this.usersService.create(createUserDto);
   }
 
+  @Get('upgrade/:email')
+  @Roles(RolesEnum.Admin)
+  async upgrade(@Param('email') email: string) {
+    return this.usersService.upgrade(email);
+  }
+
   @Public()
   @UseGuards(LocalAuthGuard)
   @Post('login')
