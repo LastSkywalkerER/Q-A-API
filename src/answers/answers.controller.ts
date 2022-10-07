@@ -1,9 +1,9 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Request } from '@nestjs/common';
 
-import { Public } from '@/auth/Public.decorator';
-import { Roles } from '@/roles/roles.decorator';
-import { Roles as RolesEnum } from '@/roles/roles.enum';
-import { UserInRequest } from '@/users/users.types';
+import { Public } from '@/auth/decorators/public.decorator';
+import { Roles } from '@/roles/decorators/roles.decorator';
+import { Roles as RolesEnum } from '@/roles/types/roles.enum';
+import { UserInRequest } from '@/users/types/users.types';
 
 import { AnswersService } from './answers.service';
 import { CreateAnswerDto } from './dto/create-answer.dto';

@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 
-import { Roles } from '@/roles/roles.decorator';
-import { Roles as RolesEnum } from '@/roles/roles.enum';
+import { Roles } from '@/roles/decorators/roles.decorator';
+import { Roles as RolesEnum } from '@/roles/types/roles.enum';
 
 import { CreateTagDto } from './dto/create-tag.dto';
 import { UpdateTagDto } from './dto/update-tag.dto';

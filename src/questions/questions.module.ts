@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { Answers } from '@/answers/answers.entity';
 import { AnswersService } from '@/answers/answers.service';
+import { Answers } from '@/answers/entities/answers.entity';
 
+import { Questions } from './entities/questions.entity';
 import { QuestionsController } from './questions.controller';
-import { Questions } from './questions.entity';
 import { QuestionsService } from './questions.service';
 
 @Module({

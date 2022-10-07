@@ -1,7 +1,7 @@
 import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
-import { Tags } from '@/tags/tags.entity';
-import { Users } from '@/users/users.entity';
+import { Tags } from '@/tags/entities/tags.entity';
+import { Users } from '@/users/entities/users.entity';
 
 @Entity()
 export class Questions {

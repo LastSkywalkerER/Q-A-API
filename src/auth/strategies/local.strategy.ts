@@ -4,7 +4,7 @@ import { Strategy } from 'passport-local';
 
 import { GetUserDto } from '@/users/dto/get-user.dto';
 
-import { AuthService } from './auth.service';
+import { AuthService } from '../auth.service';
 
 @Injectable()
 export class LocalStrategy extends PassportStrategy(Strategy) {

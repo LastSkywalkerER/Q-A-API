@@ -2,10 +2,10 @@ import { config } from 'dotenv';
 import * as path from 'path';
 import { DataSource, DataSourceOptions } from 'typeorm';
 
-import { Answers } from '@/answers/answers.entity';
-import { Questions } from '@/questions/questions.entity';
-import { Tags } from '@/tags/tags.entity';
-import { Users } from '@/users/users.entity';
+import { Answers } from '@/answers/entities/answers.entity';
+import { Questions } from '@/questions/entities/questions.entity';
+import { Tags } from '@/tags/entities/tags.entity';
+import { Users } from '@/users/entities/users.entity';
 
 config();
 

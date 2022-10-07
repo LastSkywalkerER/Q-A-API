@@ -4,7 +4,7 @@ import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 
 import { CreateTagDto } from './dto/create-tag.dto';
 import { UpdateTagDto } from './dto/update-tag.dto';
-import { Tags } from './tags.entity';
+import { Tags } from './entities/tags.entity';
 
 @Injectable()
 export class TagsService {

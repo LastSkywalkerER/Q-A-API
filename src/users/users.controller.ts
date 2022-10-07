@@ -1,12 +1,12 @@
 import { Body, Controller, Get, Param, Post, Request, UseGuards } from '@nestjs/common';
 
 import { AuthService } from '@/auth/auth.service';
-import { JwtAuthGuard } from '@/auth/jwt-auth.guard';
-import { LocalAuthGuard } from '@/auth/local-auth.guard';
-import { Public } from '@/auth/Public.decorator';
-import { Roles } from '@/roles/roles.decorator';
-import { Roles as RolesEnum } from '@/roles/roles.enum';
-import { RolesGuard } from '@/roles/roles.guard';
+import { Public } from '@/auth/decorators/public.decorator';
+import { JwtAuthGuard } from '@/auth/guards/jwt-auth.guard';
+import { LocalAuthGuard } from '@/auth/guards/local-auth.guard';
+import { Roles } from '@/roles/decorators/roles.decorator';
+import { RolesGuard } from '@/roles/guards/roles.guard';
+import { Roles as RolesEnum } from '@/roles/types/roles.enum';
 
 import { CreateUserDto } from './dto/create-user.dto';
 import { GetUserDto } from './dto/get-user.dto';

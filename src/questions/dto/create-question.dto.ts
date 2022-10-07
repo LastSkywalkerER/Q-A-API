@@ -1,4 +1,4 @@
-import { Tags } from '@/tags/tags.entity';
+import { Tags } from '@/tags/entities/tags.entity';
 
 export class CreateQuestionDto {
   readonly title: string;

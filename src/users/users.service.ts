@@ -4,10 +4,10 @@ import * as bcrypt from 'bcrypt';
 import * as dotenv from 'dotenv';
 import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 
-import { Roles } from '@/roles/roles.enum';
+import { Roles } from '@/roles/types/roles.enum';
 
 import { CreateUserDto } from './dto/create-user.dto';
-import { Users } from './users.entity';
+import { Users } from './entities/users.entity';
 
 dotenv.config();
 

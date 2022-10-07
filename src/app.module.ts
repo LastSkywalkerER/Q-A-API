@@ -6,10 +6,10 @@ import { AnswersModule } from './answers/answers.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
-import { JwtAuthGuard } from './auth/jwt-auth.guard';
+import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
 import { dataSourceOptions } from './config/postgres/postgres.configuration';
 import { QuestionsModule } from './questions/questions.module';
-import { RolesGuard } from './roles/roles.guard';
+import { RolesGuard } from './roles/guards/roles.guard';
 import { TagsModule } from './tags/tags.module';
 import { UsersModule } from './users/users.module';
 

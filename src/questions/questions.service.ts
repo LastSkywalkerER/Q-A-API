@@ -4,7 +4,7 @@ import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 
 import { CreateQuestionDto } from './dto/create-question.dto';
 import { UpdateQuestionDto } from './dto/update-question.dto';
-import { Questions } from './questions.entity';
+import { Questions } from './entities/questions.entity';
 
 @Injectable()
 export class QuestionsService {
