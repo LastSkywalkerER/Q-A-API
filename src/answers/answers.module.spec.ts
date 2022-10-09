@@ -1,35 +1,16 @@
-import { APP_GUARD } from '@nestjs/core';
-import { Test, TestingModule } from '@nestjs/testing';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { TestingModule } from '@nestjs/testing';
 
-import { JwtAuthGuard } from '@/auth/guards/jwt-auth.guard';
-import { testDataSourceOptions } from '@/config/postgres/postgres-test.configuration';
-import { RolesGuard } from '@/roles/guards/roles.guard';
+import { getApp, userFromToken } from '@/app.controller.spec';
 
 import { AnswersController } from './answers.controller';
 import { AnswersService } from './answers.service';
-import { Answers } from './entities/answers.entity';
 
 describe('AnswersController', () => {
   let controller: AnswersController;
   let service: AnswersService;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      imports: [TypeOrmModule.forFeature([Answers]), TypeOrmModule.forRoot(testDataSourceOptions)],
-      controllers: [AnswersController],
-      providers: [
-        AnswersService,
-        {
-          provide: APP_GUARD,
-          useClass: JwtAuthGuard,
-        },
-        {
-          provide: APP_GUARD,
-          useClass: RolesGuard,
-        },
-      ],
-    }).compile();
+    const module: TestingModule = await getApp();
 
     controller = module.get<AnswersController>(AnswersController);
     service = module.get<AnswersService>(AnswersService);
@@ -41,5 +22,17 @@ describe('AnswersController', () => {
 
   it('service should be defined', () => {
     expect(service).toBeDefined();
+  });
+
+  it('create answer return object', async () => {
+    const response = await controller.create({ questionId: '3', text: 'London is the capital of great Britain' }, userFromToken);
+
+    expect(response).toBeDefined();
+  });
+
+  it('update answer return something', async () => {
+    const response = await controller.update({ text: 'London is the capital of great Britain', id: '1' });
+
+    expect(response).toBeDefined();
   });
 });

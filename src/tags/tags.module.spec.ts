@@ -1,9 +1,8 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { HttpException, HttpStatus } from '@nestjs/common';
+import { TestingModule } from '@nestjs/testing';
 
-import { testDataSourceOptions } from '@/config/postgres/postgres-test.configuration';
+import { getApp } from '@/app.controller.spec';
 
-import { Tags } from './entities/tags.entity';
 import { TagsController } from './tags.controller';
 import { TagsService } from './tags.service';
 
@@ -12,11 +11,7 @@ describe('TagsController', () => {
   let service: TagsService;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      imports: [TypeOrmModule.forFeature([Tags]), TypeOrmModule.forRoot(testDataSourceOptions)],
-      controllers: [TagsController],
-      providers: [TagsService],
-    }).compile();
+    const module: TestingModule = await getApp();
 
     controller = module.get<TagsController>(TagsController);
     service = module.get<TagsService>(TagsService);
@@ -28,5 +23,38 @@ describe('TagsController', () => {
 
   it('service should be defined', () => {
     expect(service).toBeDefined();
+  });
+
+  it('double tags not allowed', async () => {
+    try {
+      const response = await controller.create({
+        name: 'geography',
+      });
+
+      expect(response).toBeDefined();
+    } catch (error) {
+      expect(error).toEqual(new HttpException('Tag already exists', HttpStatus.NOT_ACCEPTABLE));
+    }
+  });
+
+  it('double tags not allowed', async () => {
+    try {
+      const response = await controller.create({
+        name: 'economy',
+      });
+
+      expect(response).toBeDefined();
+    } catch (error) {
+      expect(error).toEqual(new HttpException('Tag already exists', HttpStatus.NOT_ACCEPTABLE));
+    }
+  });
+
+  it('update tag return something', async () => {
+    const response = await controller.update({
+      name: 'economy',
+      id: '2',
+    });
+
+    expect(response).toBeDefined();
   });
 });

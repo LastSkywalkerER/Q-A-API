@@ -20,12 +20,14 @@ import { UsersModule } from './users/users.module';
     AppService,
     {
       provide: APP_GUARD,
-      useClass: JwtAuthGuard,
+      useExisting: JwtAuthGuard,
     },
+    JwtAuthGuard,
     {
       provide: APP_GUARD,
-      useClass: RolesGuard,
+      useExisting: RolesGuard,
     },
+    RolesGuard,
   ],
 })
 export class AppModule {}

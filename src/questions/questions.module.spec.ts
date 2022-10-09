@@ -1,11 +1,7 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { TestingModule } from '@nestjs/testing';
 
-import { AnswersService } from '@/answers/answers.service';
-import { Answers } from '@/answers/entities/answers.entity';
-import { testDataSourceOptions } from '@/config/postgres/postgres-test.configuration';
+import { getApp, userFromToken } from '@/app.controller.spec';
 
-import { Questions } from './entities/questions.entity';
 import { QuestionsController } from './questions.controller';
 import { QuestionsService } from './questions.service';
 
@@ -14,11 +10,7 @@ describe('QuestionsController', () => {
   let service: QuestionsService;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      imports: [TypeOrmModule.forFeature([Questions, Answers]), TypeOrmModule.forRoot(testDataSourceOptions)],
-      controllers: [QuestionsController],
-      providers: [QuestionsService, AnswersService],
-    }).compile();
+    const module: TestingModule = await getApp();
 
     controller = module.get<QuestionsController>(QuestionsController);
     service = module.get<QuestionsService>(QuestionsService);
@@ -30,5 +22,35 @@ describe('QuestionsController', () => {
 
   it('service should be defined', () => {
     expect(service).toBeDefined();
+  });
+
+  it('create question return object', async () => {
+    const response = await controller.create(
+      {
+        title: 'Capital of Great Britain',
+        description: 'What is the capital of Great Britain?',
+        tags: [{ id: '1', name: 'geography' }],
+      },
+      userFromToken,
+    );
+
+    expect(response).toBeDefined();
+  });
+
+  it('get all question return array', async () => {
+    const response = await controller.getAll();
+
+    expect(response).toBeInstanceOf(Array);
+  });
+
+  it('update question return something', async () => {
+    const response = await controller.update({
+      title: 'Capital of Great Britain',
+      description: 'What is the capital of Great Britain?',
+      tags: [{ id: '1', name: 'geography' }],
+      id: '3',
+    });
+
+    expect(response).toBeDefined();
   });
 });

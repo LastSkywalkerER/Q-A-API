@@ -1,39 +1,41 @@
-import { APP_GUARD } from '@nestjs/core';
 import { Test, TestingModule } from '@nestjs/testing';
-import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { AnswersModule } from './answers/answers.module';
 import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { AuthModule } from './auth/auth.module';
+import { AppModule } from './app.module';
 import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
-import { dataSourceOptions } from './config/postgres/postgres.configuration';
-import { QuestionsModule } from './questions/questions.module';
+import { MockAuthGuard } from './auth/guards/mock-auth.guard';
+import { MockRolesGuard } from './roles/guards/mock-roles.guard';
 import { RolesGuard } from './roles/guards/roles.guard';
-import { TagsModule } from './tags/tags.module';
-import { UsersModule } from './users/users.module';
+
+export const getApp = async () => {
+  const module = await Test.createTestingModule({
+    imports: [AppModule],
+  })
+    .overrideProvider(JwtAuthGuard)
+    .useClass(MockAuthGuard)
+    .overrideProvider(RolesGuard)
+    .useClass(MockRolesGuard)
+    .compile();
+
+  return module;
+};
+
+export const userFromToken = {
+  user: {
+    userName: 'Admin',
+    email: 'maxdr1998@gmail.com',
+    id: '1',
+    role: 'user',
+  },
+};
 
 describe('AppController', () => {
   let appController: AppController;
 
   beforeEach(async () => {
-    const app: TestingModule = await Test.createTestingModule({
-      imports: [TypeOrmModule.forRoot(dataSourceOptions), UsersModule, AuthModule, QuestionsModule, AnswersModule, TagsModule],
-      controllers: [AppController],
-      providers: [
-        AppService,
-        {
-          provide: APP_GUARD,
-          useClass: JwtAuthGuard,
-        },
-        {
-          provide: APP_GUARD,
-          useClass: RolesGuard,
-        },
-      ],
-    }).compile();
+    const module: TestingModule = await getApp();
 
-    appController = app.get<AppController>(AppController);
+    appController = module.get<AppController>(AppController);
   });
 
   describe('root', () => {

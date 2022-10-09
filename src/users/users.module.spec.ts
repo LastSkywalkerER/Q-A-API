@@ -1,14 +1,8 @@
-import { APP_GUARD } from '@nestjs/core';
-import { JwtService } from '@nestjs/jwt';
-import { Test, TestingModule } from '@nestjs/testing';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { HttpException, HttpStatus } from '@nestjs/common';
+import { TestingModule } from '@nestjs/testing';
 
-import { AuthService } from '@/auth/auth.service';
-import { JwtAuthGuard } from '@/auth/guards/jwt-auth.guard';
-import { testDataSourceOptions } from '@/config/postgres/postgres-test.configuration';
-import { RolesGuard } from '@/roles/guards/roles.guard';
+import { getApp, userFromToken } from '@/app.controller.spec';
 
-import { Users } from './entities/users.entity';
 import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
 
@@ -17,23 +11,7 @@ describe('UsersController', () => {
   let service: UsersService;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      imports: [TypeOrmModule.forFeature([Users]), TypeOrmModule.forRoot(testDataSourceOptions)],
-      providers: [
-        UsersService,
-        AuthService,
-        JwtService,
-        {
-          provide: APP_GUARD,
-          useClass: JwtAuthGuard,
-        },
-        {
-          provide: APP_GUARD,
-          useClass: RolesGuard,
-        },
-      ],
-      controllers: [UsersController],
-    }).compile();
+    const module: TestingModule = await getApp();
 
     controller = module.get<UsersController>(UsersController);
     service = module.get<UsersService>(UsersService);
@@ -45,5 +23,33 @@ describe('UsersController', () => {
 
   it('service should be defined', () => {
     expect(service).toBeDefined();
+  });
+
+  it('double register not allowed', async () => {
+    // expect(
+    //   await controller.register({
+    //     userName: 'Admin',
+    //     email: 'maxdr1998@gmail.com',
+    //     password: '1234',
+    //   }),
+    // ).toThrow(new HttpException('User already exists', HttpStatus.NOT_ACCEPTABLE));
+
+    try {
+      const response = await controller.register({
+        userName: 'Admin',
+        email: 'maxdr1998@gmail.com',
+        password: '1234',
+      });
+
+      expect(response).toBeDefined();
+    } catch (error) {
+      expect(error).toEqual(new HttpException('User already exists', HttpStatus.NOT_ACCEPTABLE));
+    }
+  });
+
+  it('login must return token', async () => {
+    const { access_token } = await controller.login(userFromToken);
+
+    expect(access_token.length).toBeGreaterThan(0);
   });
 });
